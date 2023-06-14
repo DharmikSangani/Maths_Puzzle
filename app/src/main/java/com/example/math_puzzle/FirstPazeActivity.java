@@ -10,6 +10,8 @@ import android.widget.TextView;
 public class FirstPazeActivity extends AppCompatActivity implements View.OnClickListener {
 
 TextView textView1,textView2;
+private int cnt=1;
+int levelNo=0;
 
 
     @Override
@@ -28,11 +30,13 @@ TextView textView1,textView2;
     public void onClick(View view) {
         if (view.getId()== textView1.getId()){
             Intent intent = new Intent(FirstPazeActivity.this, Continue_SecondPage_Activity.class);
-            startActivities(new Intent[]{intent});
+            intent.putExtra("level",levelNo);
+            intent.putExtra("cnt",cnt);
+            startActivity(intent);
         }
         if (view.getId()== textView2.getId()){
             Intent intent = new Intent(FirstPazeActivity.this,Puzzles_Secondpage_Activity.class);
-            startActivities(new Intent[]{intent});
+            startActivity(intent);
         }
     }
 

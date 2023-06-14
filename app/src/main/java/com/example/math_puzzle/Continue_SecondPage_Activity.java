@@ -2,6 +2,7 @@ package com.example.math_puzzle;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 
@@ -19,20 +20,17 @@ import java.util.Arrays;
 import java.util.List;
 
 public class Continue_SecondPage_Activity extends AppCompatActivity implements View.OnClickListener {
-        String[] ans={"10","20","30","40","50","60","70","80","90","100",
-                "110","120","130","140","150","160","170","180","190","200",
-                "210","220","230","240","250","260","270","280","290","300",
-                "310","320","330","340","350","360","370","380","390","400"};
+
         List<String> imgArr=new ArrayList<String>();
 
         Button[] b = new Button[10];
         Button submitbutton;
-        TextView textans,levelbutton;
+        TextView textans,levelbord;
         ImageView img,truebutton,skipbutton, backspacebutton;
 
         String temp,data;
-        int i,levelNo=0;
-
+        int i,level;
+        private int cnt;
 
 
     @Override
@@ -43,14 +41,13 @@ public class Continue_SecondPage_Activity extends AppCompatActivity implements V
 
         skipbutton = findViewById(R.id.skipbutton);
         skipbutton.setOnClickListener(this);
-        levelbutton = findViewById(R.id.leveltext);
-        levelbutton.setOnClickListener(this);
+        levelbord = findViewById(R.id.levelbord);
+        levelbord.setOnClickListener(this);
         truebutton = findViewById(R.id.truebutton);
         truebutton.setOnClickListener(this);
 
         img = findViewById(R.id.img);
         img.setOnClickListener(this);
-        levelNo++;
         textans = findViewById(R.id.textans);
         textans.setOnClickListener(this);
         backspacebutton = findViewById(R.id.backspacebutton);
@@ -58,6 +55,12 @@ public class Continue_SecondPage_Activity extends AppCompatActivity implements V
         submitbutton = findViewById(R.id.submitbutton);
         submitbutton.setOnClickListener(this);
 
+
+        level = getIntent().getIntExtra("level",level);
+        cnt = getIntent().getIntExtra("cnt",cnt);
+        levelbord.setText("Level "+cnt);
+
+        //buttonArr
         for(int i=0;i<b.length;i++)
         {
             int id = getResources().getIdentifier("b"+i, "id", getPackageName());
@@ -65,21 +68,21 @@ public class Continue_SecondPage_Activity extends AppCompatActivity implements V
             b[i].setOnClickListener(this);
         }
 
+
+
+        //assets img in put
         String[] images=new String[0];
         try {
             images = getAssets().list("LevelImages/");
             imgArr = new ArrayList<String>(Arrays.asList(images));
             Log.d("YYY", "onCreate: Images="+imgArr);
 
-
         } catch (IOException e) {
-            e.printStackTrace();
-        }
-
+            e.printStackTrace();}
         InputStream stream = null;
         try
         {
-            stream = getAssets().open("LevelImages/"+imgArr.get(levelNo));
+            stream = getAssets().open("LevelImages/"+imgArr.get(level));
             Drawable drawable = Drawable.createFromStream(stream, null);
             img.setImageDrawable(drawable);
         }
@@ -93,6 +96,19 @@ public class Continue_SecondPage_Activity extends AppCompatActivity implements V
                 }
             } catch (Exception ignored) {}
         }
+
+
+
+
+        if(textans.getText().toString().equals(config.ansArr[level]))
+        {
+            Intent intent=new Intent(Continue_SecondPage_Activity.this,Winpage_Activity.class);
+            level++;
+            intent.putExtra("level",level);
+            startActivity(intent);
+            finish();
+        }
+
     }
 
     @Override
@@ -143,9 +159,21 @@ public class Continue_SecondPage_Activity extends AppCompatActivity implements V
                 temp=textans.getText().toString().substring(0,temp.length()-1);
                 textans.setText(""+temp);
             }
-        if (view.getId()==submitbutton.getId()){
-
-        }
+        if (view.getId()==submitbutton.getId())
+        {
+                if(textans.getText().toString().equals(config.ansArr[level]))
+                {
+                    Intent intent=new Intent(Continue_SecondPage_Activity.this,Winpage_Activity.class);
+                    intent.putExtra("level",level);
+                    intent.putExtra("cnt",cnt);
+                    startActivity(intent);
+                }
+                else
+                {
+                    Toast.makeText(this,"something went worng...",Toast.LENGTH_SHORT).show();
+                    textans.setText("");
+                }
+            }
 
         }catch (Exception ex){
             Toast.makeText(this, "something went wrong...", Toast.LENGTH_SHORT).show();
