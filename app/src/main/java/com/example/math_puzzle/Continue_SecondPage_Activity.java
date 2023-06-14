@@ -1,5 +1,9 @@
 package com.example.math_puzzle;
 
+
+
+import static com.example.math_puzzle.FirstPazeActivity.editor;
+
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -29,7 +33,7 @@ public class Continue_SecondPage_Activity extends AppCompatActivity implements V
         ImageView img,truebutton,skipbutton, backspacebutton;
 
         String temp,data;
-        int i,level;
+        int i, levelNo;
         private int cnt;
 
 
@@ -56,7 +60,7 @@ public class Continue_SecondPage_Activity extends AppCompatActivity implements V
         submitbutton.setOnClickListener(this);
 
 
-        level = getIntent().getIntExtra("level",level);
+        levelNo = getIntent().getIntExtra("level", levelNo);
         cnt = getIntent().getIntExtra("cnt",cnt);
         levelbord.setText("Level "+cnt);
 
@@ -82,7 +86,7 @@ public class Continue_SecondPage_Activity extends AppCompatActivity implements V
         InputStream stream = null;
         try
         {
-            stream = getAssets().open("LevelImages/"+imgArr.get(level));
+            stream = getAssets().open("LevelImages/"+imgArr.get(levelNo));
             Drawable drawable = Drawable.createFromStream(stream, null);
             img.setImageDrawable(drawable);
         }
@@ -99,15 +103,18 @@ public class Continue_SecondPage_Activity extends AppCompatActivity implements V
 
 
 
-
-        if(textans.getText().toString().equals(config.ansArr[level]))
-        {
-            Intent intent=new Intent(Continue_SecondPage_Activity.this,Winpage_Activity.class);
-            level++;
-            intent.putExtra("level",level);
-            startActivity(intent);
-            finish();
-        }
+//
+//        if(textans.getText().toString().equals(config.ansArr[levelNo]))
+//        {
+//
+//
+//            Intent intent=new Intent(Continue_SecondPage_Activity.this,Winpage_Activity.class);
+//            levelNo++;
+//
+//            intent.putExtra("level", levelNo);
+//            startActivity(intent);
+//            finish();
+//        }
 
     }
 
@@ -161,10 +168,14 @@ public class Continue_SecondPage_Activity extends AppCompatActivity implements V
             }
         if (view.getId()==submitbutton.getId())
         {
-                if(textans.getText().toString().equals(config.ansArr[level]))
+                if(textans.getText().toString().equals(config.ansArr[levelNo]))
                 {
+                    editor.putInt("lastLevel", levelNo);
+                    editor.putString("levelStatus"+levelNo,"win");
+                    editor.commit();
+
                     Intent intent=new Intent(Continue_SecondPage_Activity.this,Winpage_Activity.class);
-                    intent.putExtra("level",level);
+                    intent.putExtra("level", levelNo);
                     intent.putExtra("cnt",cnt);
                     startActivity(intent);
                 }
