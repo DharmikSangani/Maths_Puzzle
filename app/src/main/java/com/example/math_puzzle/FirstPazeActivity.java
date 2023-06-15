@@ -5,18 +5,18 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.preference.Preference;
+
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
-import java.util.prefs.Preferences;
+
 
 public class FirstPazeActivity extends AppCompatActivity implements View.OnClickListener {
 
 TextView textView1,textView2;
 private int cnt=1;
-int levelNo=0,lastLevel;
+public static int levelNo=0,lastLevel;
 public static SharedPreferences preferences;
 public static SharedPreferences.Editor editor;
 

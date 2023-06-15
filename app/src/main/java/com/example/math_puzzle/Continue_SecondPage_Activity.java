@@ -4,7 +4,7 @@ package com.example.math_puzzle;
 
 import static com.example.math_puzzle.FirstPazeActivity.editor;
 
-import androidx.appcompat.app.AlertDialog;
+
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.DialogInterface;
@@ -37,7 +37,7 @@ public class Continue_SecondPage_Activity extends AppCompatActivity implements V
         ImageView img,truebutton,skipbutton, backspacebutton;
 
         String temp,data;
-        int i, levelNo;
+       static int i, levelNo;
         private int cnt;
 
 
