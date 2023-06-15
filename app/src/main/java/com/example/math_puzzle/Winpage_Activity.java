@@ -11,7 +11,7 @@ import android.widget.TextView;
 
 public class Winpage_Activity extends AppCompatActivity implements View.OnClickListener {
     TextView continew, mainmenu,textwin;
-    private int level;
+    private int levelNo;
     private int cnt;
 
     @SuppressLint("MissingInflatedId")
@@ -27,11 +27,8 @@ public class Winpage_Activity extends AppCompatActivity implements View.OnClickL
         textwin=findViewById(R.id.textwin);
         textwin.setOnClickListener(this);
 
-        level = getIntent().getIntExtra("level",level);
-        cnt = getIntent().getIntExtra("cnt",cnt);
-        textwin.setText("Puzzle "+cnt+" Completed");
-        level++;
-        cnt++;
+        levelNo = getIntent().getIntExtra("level",levelNo);//1
+        textwin.setText("Puzzle "+levelNo+" Completed");//1
 
     }
 
@@ -40,13 +37,12 @@ public class Winpage_Activity extends AppCompatActivity implements View.OnClickL
 
         if (v.getId() == continew.getId()) {
             Intent intent = new Intent(Winpage_Activity.this, Continue_SecondPage_Activity.class);
-            intent.putExtra("level",level);
-            intent.putExtra("cnt",cnt);
+            intent.putExtra("level",levelNo);//
             startActivity(intent);
         }
         if (v.getId() == mainmenu.getId()) {
             Intent intent = new Intent(Winpage_Activity.this, FirstPazeActivity.class);
-            intent.putExtra("level",level);
+            intent.putExtra("level",levelNo);
             intent.putExtra("cnt",cnt);
             startActivity(intent);
         }

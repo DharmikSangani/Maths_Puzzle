@@ -22,13 +22,14 @@ public class Puzzles_Secondpage_Activity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_continue_secondpage);
+        setContentView(R.layout.activity_puzzles_secondpage);
         gridView=findViewById(R.id.level_view);
 
         levelNo=getIntent().getIntExtra("levelNo",levelNo);
         cnt=getIntent().getIntExtra("cnt",cnt);
 
         PuzzlesAdapter adapter=new PuzzlesAdapter(Puzzles_Secondpage_Activity.this,config.no);
+
         gridView.setAdapter(adapter);
 
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {

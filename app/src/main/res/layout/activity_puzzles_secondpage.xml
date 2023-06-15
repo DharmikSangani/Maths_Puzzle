@@ -5,7 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".Puzzles_Secondpage_Activity"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:background="@drawable/background_firstpaze">
 
     <GridView
         android:layout_width="match_parent"

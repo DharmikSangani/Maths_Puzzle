@@ -5,9 +5,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.Preference;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
+
+import java.util.prefs.Preferences;
 
 public class FirstPazeActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -26,7 +29,8 @@ public static SharedPreferences.Editor editor;
         preferences=getSharedPreferences("myPref",MODE_PRIVATE);
         editor= preferences.edit();
 
-        lastLevel= preferences.getInt("lastLevel",0);
+        lastLevel= preferences.getInt("lastLevel",-1);//0
+
         Log.d("RRR", "onCreate: LastLevel="+lastLevel);
 
         textView1 = findViewById(R.id.continew);
@@ -40,8 +44,8 @@ public static SharedPreferences.Editor editor;
     public void onClick(View view) {
         if (view.getId()== textView1.getId()){
             Intent intent = new Intent(FirstPazeActivity.this, Continue_SecondPage_Activity.class);
-            intent.putExtra("level",lastLevel++);
-            intent.putExtra("cnt",cnt);
+            lastLevel++;
+            intent.putExtra("level",lastLevel);//0
             startActivity(intent);
         }
         if (view.getId()== textView2.getId()){

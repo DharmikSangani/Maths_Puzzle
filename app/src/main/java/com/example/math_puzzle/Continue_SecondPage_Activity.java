@@ -4,8 +4,10 @@ package com.example.math_puzzle;
 
 import static com.example.math_puzzle.FirstPazeActivity.editor;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -16,6 +18,8 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -60,9 +64,8 @@ public class Continue_SecondPage_Activity extends AppCompatActivity implements V
         submitbutton.setOnClickListener(this);
 
 
-        levelNo = getIntent().getIntExtra("level", levelNo);
-        cnt = getIntent().getIntExtra("cnt", cnt);
-        levelbord.setText("Level " + cnt);
+        levelNo = getIntent().getIntExtra("level", 0);//0
+        levelbord.setText("Level " + (levelNo+1));//1
 
         //buttonArr
         for (int i = 0; i < b.length; i++) {
@@ -75,7 +78,7 @@ public class Continue_SecondPage_Activity extends AppCompatActivity implements V
         //assets img in put
         String[] images = new String[0];
         try {
-            images = getAssets().list("LevelImages/");
+            images = getAssets().list("LevelImages");
             imgArr = new ArrayList<String>(Arrays.asList(images));
             Log.d("YYY", "onCreate: Images=" + imgArr);
 
@@ -84,7 +87,7 @@ public class Continue_SecondPage_Activity extends AppCompatActivity implements V
         }
         InputStream stream = null;
         try {
-            stream = getAssets().open("LevelImages/" + imgArr.get(levelNo));
+            stream = getAssets().open("LevelImages/" + imgArr.get(levelNo));//0
             Drawable drawable = Drawable.createFromStream(stream, null);
             img.setImageDrawable(drawable);
         } catch (Exception ignored) {
@@ -150,13 +153,13 @@ public class Continue_SecondPage_Activity extends AppCompatActivity implements V
         {
                 if(textans.getText().toString().equals(config.ansArr[levelNo]))
                 {
-                    editor.putInt("lastLevel", levelNo);
-                    editor.putString("levelStatus"+levelNo,"win");
+                    editor.putInt("lastLevel", (levelNo));//0,1
+                    editor.putString("levelStatus"+levelNo,"win");//levelStatus0=win
                     editor.commit();
 
+                    levelNo++;//1
                     Intent intent=new Intent(Continue_SecondPage_Activity.this,Winpage_Activity.class);
-                    intent.putExtra("level", levelNo);
-                    intent.putExtra("cnt",cnt);
+                    intent.putExtra("level", levelNo);//1
                     startActivity(intent);
                     finish();
                 }
@@ -166,6 +169,35 @@ public class Continue_SecondPage_Activity extends AppCompatActivity implements V
                     textans.setText("");
                 }
             }
+        if(view.getId()==skipbutton.getId())
+        {
+            MaterialAlertDialogBuilder builder=new MaterialAlertDialogBuilder(Continue_SecondPage_Activity.this);
+            builder.setTitle("Alert..!");
+            builder.setMessage("Are you sure, you want to skip a level???");
+            builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    builder.show();
+                    editor.putInt("lastLevel", (levelNo));//2,3
+                    editor.putString("levelStatus"+levelNo,"skip");
+                    editor.commit();
+
+                    levelNo++;
+                    Intent intent=new Intent(Continue_SecondPage_Activity.this,Continue_SecondPage_Activity.class);
+                    intent.putExtra("level", levelNo);//3
+
+                    startActivity(intent);
+                    finish();
+                }
+            });
+            builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    dialogInterface.dismiss();
+                }
+            });
+            builder.show();
+        }
 
         }catch (Exception ex){
             Toast.makeText(this, "something went wrong...", Toast.LENGTH_SHORT).show();
