@@ -61,61 +61,41 @@ public class Continue_SecondPage_Activity extends AppCompatActivity implements V
 
 
         levelNo = getIntent().getIntExtra("level", levelNo);
-        cnt = getIntent().getIntExtra("cnt",cnt);
-        levelbord.setText("Level "+cnt);
+        cnt = getIntent().getIntExtra("cnt", cnt);
+        levelbord.setText("Level " + cnt);
 
         //buttonArr
-        for(int i=0;i<b.length;i++)
-        {
-            int id = getResources().getIdentifier("b"+i, "id", getPackageName());
-            b[i]=findViewById(id);
+        for (int i = 0; i < b.length; i++) {
+            int id = getResources().getIdentifier("b" + i, "id", getPackageName());
+            b[i] = findViewById(id);
             b[i].setOnClickListener(this);
         }
 
 
-
         //assets img in put
-        String[] images=new String[0];
+        String[] images = new String[0];
         try {
             images = getAssets().list("LevelImages/");
             imgArr = new ArrayList<String>(Arrays.asList(images));
-            Log.d("YYY", "onCreate: Images="+imgArr);
+            Log.d("YYY", "onCreate: Images=" + imgArr);
 
         } catch (IOException e) {
-            e.printStackTrace();}
+            e.printStackTrace();
+        }
         InputStream stream = null;
-        try
-        {
-            stream = getAssets().open("LevelImages/"+imgArr.get(levelNo));
+        try {
+            stream = getAssets().open("LevelImages/" + imgArr.get(levelNo));
             Drawable drawable = Drawable.createFromStream(stream, null);
             img.setImageDrawable(drawable);
-        }
-        catch (Exception ignored) {} finally
-        {
-            try
-            {
-                if(stream != null)
-                {
+        } catch (Exception ignored) {
+        } finally {
+            try {
+                if (stream != null) {
                     stream.close();
                 }
-            } catch (Exception ignored) {}
+            } catch (Exception ignored) {
+            }
         }
-
-
-
-//
-//        if(textans.getText().toString().equals(config.ansArr[levelNo]))
-//        {
-//
-//
-//            Intent intent=new Intent(Continue_SecondPage_Activity.this,Winpage_Activity.class);
-//            levelNo++;
-//
-//            intent.putExtra("level", levelNo);
-//            startActivity(intent);
-//            finish();
-//        }
-
     }
 
     @Override
@@ -178,6 +158,7 @@ public class Continue_SecondPage_Activity extends AppCompatActivity implements V
                     intent.putExtra("level", levelNo);
                     intent.putExtra("cnt",cnt);
                     startActivity(intent);
+                    finish();
                 }
                 else
                 {
