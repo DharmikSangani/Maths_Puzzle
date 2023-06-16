@@ -9,13 +9,16 @@
         android:id="@+id/textno"
         android:layout_width="@dimen/_70sdp"
         android:layout_height="@dimen/_70sdp"
-        android:textSize="@dimen/_50sdp"
-        android:text="1"
+        android:layout_marginStart="@dimen/_5sdp"
+        android:layout_marginTop="@dimen/_5sdp"
+        android:layout_marginEnd="@dimen/_5sdp"
+        android:layout_marginBottom="@dimen/_5sdp"
+        android:background="@drawable/background_text"
         android:gravity="center"
+        android:text="1"
+        android:textSize="@dimen/_50sdp"
         android:textStyle="bold"
-        android:visibility="invisible"
-        android:layout_margin="@dimen/_5sdp"
-        android:background="@drawable/background_text"/>
+        android:visibility="invisible" />
 
 
     <ImageView
